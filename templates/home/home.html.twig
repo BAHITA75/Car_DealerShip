@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="text-center py-5 api">
+            <div class="row justify-content-center align-items-center">
+                <div class="icon sun-shower">
+                <h3 class="temp">{{ dataMeteo.current_weather.temperature }} °C </h3>
+                    <div class="cloud"></div>
+                    <div class="cloud"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+                <h1 class="col-12 text-center p-5">Tous les véhicules</h1>
+                <div class="col-md-3 my-2">
+                    {% include 'home/_filter.html.twig' with {form: form} only %}
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        {% for car in cars %}
+                        <div class="card col-md-4 my-2">
+                            <img src="{{car.picture}}" class="card-img-top img-card-custom" alt="{{ car.name}}">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">{{ car.name}}</h5>
+                                <h6 class="card-title text-center">{{ car.category.name}}</h6>
+                                <h6 class="card-title text-primary fw-bold fs-5">{{ car.cost |number_format(0, '.', ' ')}} €</h6>
+                                <p class="card-text"><small> Nombre de sièges : <strong> {{ car.nbSeats}}</strong></small></p>
+                                <p class="card-text"><small> Nombre de portes: <strong> {{ car.nbDoors}}</strong></small></p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            
+        </div>
+        {# pagination #}
+        <div class="d-flex justify-content-center">
+            {% do cars.setPageRange(3) %}
+            {{ knp_pagination_render(cars, 'component/pagination.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

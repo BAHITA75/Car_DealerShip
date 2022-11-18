@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController !{% endblock %}
+
+{% block body %}
+
+    <section class="container">
+
+        <h1 class="text-muted text-center">Tableau de bord Administrateur</h1>
+
+        <hr>
+
+        <div  class="col-sm-12 col-lg-12 col-xl-12">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    {% if label == 'success' %}
+                    <span class="alert-inner--icon"><i class="fe fe-thumbs-up"></i></span>
+                    {% else %}
+                    <span class="alert-inner--icon"><i class="fe fe-thumbs-down"></i></span>
+                    {% endif %}
+                    <span class="alert-inner--text"><strong>{{ label | title }} : </strong> {{ message | raw }}</span>
+                </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
+        <h2 class="text-muted text-center">Tous les véhicules</h2>
+
+        <a class="btn btn-dark mb-2" href="{{path('create_car')}}">Créer un véhicule</a>
+    
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Modèle</th>
+                    <th scope="col">Catégorie</th>
+                    <th scope="col">Prix</th>
+                    <th scope="col">Nombre de sièges</th>
+                    <th scope="col">Nombre de portes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for car in cars %}
+                    <tr>
+                        <td>{{car.id}}</td>
+                        <td><img style="width:100px;" src="{{car.picture}}" alt=""></td>
+                        <td>{{car.name}}</td>
+                        <td>{{car.category.name}}</td>
+                        <td>{{car.cost}}</td>
+                        <td>{{car.nbseats}}</td>
+                        <td>{{car.nbdoors}}</td>
+                        <td>
+                            <a href="{{path('delete_car',{'id': car.id })}}" onclick="return confirm('Voulez-vous vraiment supprimer ce vehicule ?')"><i class="fa fa-trash"></i></a> | <a href="{{path('edit_car',{'id': car.id })}}"><i class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mb-5">
+            {% do cars.setPageRange(5) %}
+            {{ knp_pagination_render(cars, 'component/pagination.html.twig') }}
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-sm-4 col-lg-4 col-xl-4 text-center">
+                <h2 class="text-muted">Toutes les catégories</h2>
+                <a class="btn btn-dark mb-2" href="">Créer une catégorie</a>
+
+                <table class="table mt-5">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Nom</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{category.id}}</td>
+                            <td>{{category.name}}</td>
+                            <td>
+                                <a href="" onclick="return confirm('Voulez-vous vraiment supprimer cette catégorie ?')"><i class="fa fa-trash"></i></a> | <a href=""><i class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification d'un formulaire{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row my-3">
+        <div class="col-12">
+            <h2 class="text-muted text-center">Modifier un véhicule</h2>
+        </div>
+        <div class="col-6 mx-auto mt-4">
+
+            {{ form(form, {'attr': {novalidate: 'novalidate'}}) }}
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
